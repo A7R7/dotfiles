@@ -1,0 +1,132 @@
+format = """\
+$time\
+$directory\
+$git_branch$git_status\
+$c$cmake\
+$elixir$elm\
+$golang\
+$haskell\
+$java$julia\
+$lua\
+$nodejs$nim\
+$rust\
+$scala\
+$docker_context
+$character"""
+
+add_newline = true
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "fg:#00e0a9"
+format = '[$time ]($style)'
+
+[username]
+show_always = true
+style_user = " fg:#103f91"
+style_root = " fg:#103f91"
+format = '[$user ]($style)'
+
+[directory]
+style = " fg:#00e0a9"
+format = "[ $path ]($style)"
+truncation_length = 4
+truncation_symbol = "…/"
+
+# [directory.substitutions]
+# "Documents" = " "
+# "Downloads" = " "
+# "Music" = " "
+# "Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = "  "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important  " = "  "
+
+
+
+[c]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[cmake]
+symbol = "喝 "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[docker_context]
+symbol = " "
+style = " fg:#00e0a9"
+format = '[ $symbol$context ]($style) $path'
+
+[elixir]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[elm]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[git_branch]
+symbol = " "
+style = " fg:#0094da"
+format = '[ $symbol$branch ]($style)'
+
+[git_status]
+modified = " "
+untracked = " "
+ahead = " "
+behind = " "
+deleted = " "
+staged = " "
+style = " fg:#0094da"
+format = '[$all_status$ahead_behind ]($style)'
+
+[golang]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[haskell]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[java]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[julia]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[lua]
+symbol = "󰢱"
+
+[nodejs]
+symbol = ""
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[nim]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[rust]
+symbol = ""
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+
+[scala]
+symbol = " "
+style = " fg:#00bcd0"
+format = '[ $symbol($version) ]($style)'
+

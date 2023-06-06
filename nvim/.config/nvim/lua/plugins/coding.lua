@@ -108,11 +108,14 @@ return {
 
 	{
 		"windwp/nvim-autopairs", --  auto pairs
+    cond = true,
+    event = "InsertEnter",
 		-- lazy = false,
 		--{{{
 		opts = {
+      check_ts = true,
 			fast_wrap = {},
-			disable_filetype = { "TelescopePrompt", "vim", "tex" },
+			disable_filetype = { "TelescopePrompt", "spectre_panel", "vim", "tex" },
 		},
 		config = function(_, opts)
 			require("nvim-autopairs").setup(opts)
@@ -123,7 +126,7 @@ return {
 	},
 
 	{
-		"LunarWatcher/auto-pairs",
+		"LunarWatcher/auto-pairs", -- auto pairs
 		cond = false,
 		--{{{
 		config = function(_, opts)

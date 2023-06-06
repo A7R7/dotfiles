@@ -23,7 +23,8 @@ zinit light-mode for \
   OMZP::extract \
   ajeetdsouza/zoxide \
   kutsan/zsh-system-clipboard\
-  jeffreytse/zsh-vi-mode \
+  softmoth/zsh-vim-mode \
+  # jeffreytse/zsh-vi-mode \
 # bin
 eval $(thefuck --alias)
 
@@ -43,6 +44,7 @@ eval $(thefuck --alias)
   alias la='ls -A'
   alias l='ls -CF'
 
+alias ext='extract'
 alias dmacs='emacs --with-profile doom'
 alias smacs='emacs --with-profile space'
 alias doom='~/.doomemacs.d/bin/doom'
@@ -50,7 +52,7 @@ alias proxyman='~/.local/bin/proxyman'
 alias neovide='~/.cargo/bin/neovide'
 alias rwaybar='killall -SIGUSR2 waybar'
 
-alias lazyvim="NVIM_APPNAME=lazyvim"
+alias lazy="NVIM_APPNAME=lazyvim"
 alias nvchad="NVIM_APPNAME=nvchad"
 alias astro="NVIM_APPNAME=astronvim"
 
@@ -81,7 +83,7 @@ export EDITOR=/usr/bin/nvim
 export VISUAL=/usr/bin/nvim
 
 
-# set -o vi
+set -o vi
 
 # source .zshrc more than once will cause maximum nested function, 
 # https://github.com/zsh-users/zsh-autosuggestions/issues/187

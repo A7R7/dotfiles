@@ -2,6 +2,7 @@
 return {
 	{
 		"lervag/vimtex",
+		ft = "tex",
 		-- lazy = true,
 		config = function()
 			vim.g.vimtex_compiler_latexmk_engines = { _ = "-xelatex" }
@@ -15,7 +16,6 @@ return {
 			--   highlight = { enable = true, disable = {"latex"}, },
 			-- })
 		end,
-		ft = "tex",
 	},
 
 	{
@@ -30,8 +30,11 @@ return {
 		"kaarmu/typst.vim",
 		ft = "typst",
 		keys = {
-			{ "<leader>tw", "<cmd>TypstWatch<cr>", desc = "Typst watch compile" },
+			{ "<leader>ll", "<cmd>TypstWatch<cr>", desc = "Typst watch compile" },
 		},
 	},
-	{ "h-hg/fcitx.nvim" },
+	{
+		"h-hg/fcitx.nvim",
+		event = "InsertEnter",
+	},
 }

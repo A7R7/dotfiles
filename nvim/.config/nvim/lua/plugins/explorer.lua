@@ -101,8 +101,16 @@ return {
 				"<leader>ss",
 				Util.telescope("lsp_document_symbols", {
 					symbols = {
-						"Class", "Function", "Method", "Constructor", "Interface", "Module",
-						"Struct", "Trait", "Field", "Property",
+						"Class",
+						"Function",
+						"Method",
+						"Constructor",
+						"Interface",
+						"Module",
+						"Struct",
+						"Trait",
+						"Field",
+						"Property",
 					},
 				}),
 				desc = "Goto Symbol",
@@ -111,8 +119,16 @@ return {
 				"<leader>sS",
 				Util.telescope("lsp_workspace_symbols", {
 					symbols = {
-						"Class", "Function", "Method", "Constructor", "Interface", "Module",
-						"Struct", "Trait", "Field", "Property",
+						"Class",
+						"Function",
+						"Method",
+						"Constructor",
+						"Interface",
+						"Module",
+						"Struct",
+						"Trait",
+						"Field",
+						"Property",
 					},
 				}),
 				desc = "Goto Symbol (Workspace)",
@@ -220,6 +236,7 @@ return {
 
 	{
 		"kevinhwang91/rnvimr",
+		cond = false,
 		keys = {
 			{ "<leader>rg", "<cmd>RnvimrToggle<cr>", desc = "Toggle Ranger" },
 		},
@@ -235,8 +252,12 @@ return {
 
 	{
 		"stevearc/oil.nvim",
-		opts = {},
 		-- Optional dependencies
+		cmd = { "Oil" },
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+		config = function()
+			require("oil").setup()
+		end,
 	},
 }

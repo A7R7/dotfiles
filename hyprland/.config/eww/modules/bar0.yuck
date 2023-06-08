@@ -31,7 +31,7 @@
       ; (alarm)
       (clock :child "hour" :text {time.hour} :bool hour-active)
       (label :text "${cycle-1 == 1 ? "󰔟" : "󱦟"}" 
-             :style "font-size: 2em; margin-bottom: -0.1em;"
+             :style "font-size: 1.8em; margin-bottom: -0.1em;"
       )
       (clock :child "minute" :text {time.minute} :bool minute-active)
       ; (timer)
@@ -215,11 +215,11 @@
     )
     (time-stamp 
       :mon_i mon_i :h "${weather.sunrise.h}" :m "${weather.sunrise.m}" 
-      :icon "󰖛" :desc "sunrise"
+      :icon "󰖜" :desc "sunrise";󰖜
     )
     (time-stamp 
       :mon_i mon_i :h "${weather.sunset.h}" :m "${weather.sunset.m}" 
-      :icon "󰖛" :desc "sunset"
+      :icon "󰖛" :desc "sunset"; 󰖛
     )
   )
   ;}}}
@@ -229,12 +229,13 @@
   (box ;sunrise
     :halign "start"
     :valign "end"
-    :style "font-size: 2em;
+    :style "font-size: 1.8em;
             font-family: FiraCode Nerd Font Mono;
             margin-left: ${round(mon_w[mon_i] * (h * 60 + m) / 1440, 0)}; 
-            border-bottom: 2px solid white;
-            background: linear-gradient(to bottom, rgba(0,0,0,0) 80%,  rgba(255, 255, 255, 0.7));
+            border-top: 2px solid cyan;
+            border-bottom: 2px solid cyan;
             ${debug}"
+    ; background: linear-gradient(to bottom, rgba(0,0,0,0) 80%,  rgba(255, 255, 255, 0.7));
     (label :text "${icon}" :halign "center" :valign "center"
            :tooltip "${desc}"
            :style "margin: 0 -0.25em;"

@@ -82,6 +82,14 @@ autocmd("BufReadPost", {
 	end,
 })
 
+-- disable auto format
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "lua", "c", "h" },
+	callback = function()
+		vim.b.autoformat = false
+	end,
+})
+
 -- autocmd("WinEnter", {
 --   group = augroup("active_window_color"),
 --   callback = function()

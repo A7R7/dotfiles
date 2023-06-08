@@ -29,10 +29,24 @@ $ease-out-snap: cubic-bezier(0.25, 0.575, 0.565, 1.314);
 }
 
 .bar { 
-  border-bottom: 4px solid rgba(0,50,150,0.5); 
+  border: 4px solid rgba(0,50,150,0.7); 
+  border-radius: 50px;
+  // border-bottom: 4px solid rgba(0,50,150,0.5); 
   // &.active{
   //   background-color: $bg;
   // }
+}
+
+.progress-bar {
+  // background: linear-gradient(to right, rgba(0,0,0,0), rgb(0, 100, 180));//$lighter;
+  background: linear-gradient(to bottom, rgba(0,80,150,0) 50%, rgba(0,80,150,0.5) 100%);
+  // border-top: 4px solid rgba(10,80,180,1);
+  border-bottom: 4px solid rgba(10,80,180,1);
+  border-radius: 0 0 0 20px;
+  transition: 1s linear;
+  &::after{
+    // background: linear-gradient(to bottom, red, blue);
+  }
 }
 
 .overview {
@@ -104,18 +118,6 @@ $ease-out-snap: cubic-bezier(0.25, 0.575, 0.565, 1.314);
   // }}}
 }
 
-.progress-bar {
-  // background: linear-gradient(to right, rgba(0,0,0,0), rgb(0, 100, 180));//$lighter;
-  background: linear-gradient(to bottom, rgba(0,80,150,0) 50%, rgba(0,80,150,0.5) 100%);
-  border-bottom: 4px solid rgba(10,80,150,1);
-  // box-shadow: 3px 2px 3px 1px rgba($rby-1, 0.42);
-  // border-right: 3px solid;
-  // border-image: linear-gradient(to bottom, transparent 50%, white ) 1 100%;
-  transition: 1s linear;
-  &::after{
-    // background: linear-gradient(to bottom, red, blue);
-  }
-}
 
 .date {
   // {{{
@@ -170,9 +172,9 @@ $ease-out-snap: cubic-bezier(0.25, 0.575, 0.565, 1.314);
 
   &-text {
     margin: -10 0;
-    font-family: ter-132n, monospace;
+    font-family: ter-132n;
     color: white;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 1.8em;
     transition: all 0.5s $ease-out-snap;
   }

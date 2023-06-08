@@ -11,7 +11,7 @@ if vim.g.neovide then
 	vim.o.guifont = "FiraMono Nerd Font Propo" -- best
 
 	vim.g.neovide_no_idle = true
-	vim.g.neovide_transparency = 0.97
+	vim.g.neovide_transparency = 0.90
 	--  vim.g.neovide_cursor_vfx_mode = "railgun"
 	--  vim.g.neovide_cursor_vfx_mode = "torpedo"
 	--  vim.g.neovide_cursor_vfx_mode = "pixiedust"

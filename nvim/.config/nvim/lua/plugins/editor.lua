@@ -247,7 +247,6 @@ return {
 			},
 		},
 	},
-
 	{
 		"NvChad/nvterm",
 		cond = false,
@@ -281,5 +280,10 @@ return {
 			})
 		end,
 		--}}}
+	},
+
+	{
+		"sudormrfbin/cheatsheet.nvim",
+		cmd = { "Cheatsheet" },
 	},
 }

@@ -39,10 +39,10 @@ $ease-out-snap: cubic-bezier(0.25, 0.575, 0.565, 1.314);
 
 .progress-bar {
   // background: linear-gradient(to right, rgba(0,0,0,0), rgb(0, 100, 180));//$lighter;
-  background: linear-gradient(to bottom, rgba(0,80,150,0) 50%, rgba(0,80,150,0.5) 100%);
-  // border-top: 4px solid rgba(10,80,180,1);
+  background: linear-gradient(to bottom, rgba(0,80,150,0.5) 0%, rgba(0,80,150,0.1) 50%, rgba(0,80,150,0.5) 100%); 
+  border-top: 4px solid rgba(10,80,180,1);
   border-bottom: 4px solid rgba(10,80,180,1);
-  border-radius: 0 0 0 20px;
+  border-radius: 20px 0 0 20px;
   transition: 1s linear;
   &::after{
     // background: linear-gradient(to bottom, red, blue);
@@ -64,13 +64,15 @@ $ease-out-snap: cubic-bezier(0.25, 0.575, 0.565, 1.314);
 
 .bar-button {
   // {{{
-  font-family: FiraCode Nerd Font Mono;
+  font-family: FiraMono Nerd Font Propo;
   transition: 300ms cubic-bezier(0.05, 0.9, 0.1, 1);
-  &:hover { background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255, 255, 255, 0.7)); }
+  // &:hover { background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255, 255, 255, 0.7)); }
   &:active { transition: 0s; color: white; }
-  
+  &:hover { background: rgba(255, 255, 255, 0.3); }
+
   &.inactive { color: rgb(100, 120, 150); }
   &.workspace {
+    &:hover { background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255, 255, 255, 0.7)); }
     &.3 {
       color: cyan;
       transition: 100ms;
@@ -91,17 +93,21 @@ $ease-out-snap: cubic-bezier(0.25, 0.575, 0.565, 1.314);
     color: white;
     padding: 0 0.1em;
     margin: 0 0.2em;
-    &:hover { background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255, 255, 255, 0.7)); }
+    // &:hover { background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255, 255, 255, 0.7)); }
     &.inactive {
       color: $blu-2;
       &:hover { background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(255, 255, 255, 0.7)); }
     }
+  }
+  &.overview {
+    border-radius: 1em;
   }
   // }}}
 }
 .bar-button-2 {
   // {{{
   &:hover { background: rgba(255, 255, 255, 0.3); }
+  &:active { transition: 0s; color: white; }
   border-radius: 1em;
   &.overview {
     transition: -gtk-icon-transform 0.1s linear;

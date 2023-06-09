@@ -254,37 +254,19 @@ return {
 		event = "VimEnter",
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
-			local logo = [[
-   ⠀⠀ ⠀ ⠀⠀ ⠀ ⠀⠀ ⠀ ⠀⠀ ⠀ ⠀⢤⡀ ⢰⡀⠀ ⠀ ⠀⠀ ⠀ ⠀⠀
-⠀⠀⠀⣀⣄⣀⠀⣀⣀⡀⠀⠀⣠⠀⠀⠀⠀⠀⠀⠄⠒⢒⣶⣶⣤⣽⣦⣀⢷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠿⠿⢿⣿⣯⣽⣿⣿⣿⣅⣀⠀⠀⠀⠀⣠⣴⣿⣿⣿⡿⠿⠿⣿⣿⣿⣿⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠙⠿⠟⠛⠛⢿⣿⣿⣯⣁⠀⠔⢹⣿⣿⣿⡏⠀⠀⠀⠀⠙⣿⣿⣮⣻⡆⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⡣⠀⢸⣿⣿⣿⣷⡀⠀⠀⠀⠀⠻⠿⠿⣿⣿⣷⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣷⠀⠸⡟⢿⣿⣿⣿⣄⣀⠀⠘⢤⣀⠀⠀⠉⠿⠏⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⠈⠀⠀⠙⣀⠽⢿⣿⣿⣿⣿⣿⣷⣿⣿⡟⠷⣆⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⢹⡆⣀⣤⣶⠀⠀⠀⢰⣿⣿⣿⣿⠀⠀⠀⢀⣤⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀
-⠀⠀⠀⣸⣿⣿⣿⣿⣿⣷⠀⢸⣿⣿⡇⠁⠀⠀⢀⣾⣿⣿⣿⠟⠉⢻⣿⣿⣿⠀⠛⠛⠋⠉⠉⢙⠛⠀⠀⠀
-⠀⠀⡾⣻⣿⠛⠙⢻⣿⣿⡧⣸⣿⣿⡇⠀⠀⠀⠊⣾⣿⣿⡇⠀⠀⠀⣿⣿⣿⡆⠀⢀⣒⣦⣄⣧⠀⠀⠀⠀
-⠀⣠⣷⡿⠟⠃⠀⢸⣿⣿⣷⠀⢿⣿⣿⣄⠀⠀⢸⣿⣿⣿⣷⣄⠀⢠⣿⣿⣿⠀⢐⣽⣿⡿⢿⣿⡷⣄⠀⠀
-⠀⠿⠏⠀⠀⠀⢀⣿⣿⡿⡹⠀⠈⠻⣿⣿⣷⣄⡀⢳⠹⣿⣿⣿⣧⣾⣿⣿⣿⠠⣽⣿⣿⠀⠀⠿⢿⣿⣄⠀
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⣧⠀⠀⠀⠀⠈⠻⣿⣿⣿⣷⣦⣼⣿⣿⣿⣿⣿⣿⡟⠀⣿⣿⣿⣆⠀⠀⠀⠙⠟⠀
-⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣷⣤⣄⣀⣀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠁⠀⠈⢸⣿⣿⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣁⣤⣤⣶⣿⣿⠋⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣠⣤⣤⡀⠒⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠅⣀⠀⠀⠀⣀⣀⡀
-⣔⣀⣴⣦⣬⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⣽⣤⡿
-]]
+      local logo = require("util.alpha").ne0vim
 			dashboard.section.header.val = vim.split(logo, "\n")
 			dashboard.section.buttons.val = {
-				dashboard.button("f", "󰈞 " .. " Find file", "<cmd>Telescope find_files <CR>"),
-				dashboard.button("n", " " .. " New file", "<cmd>ene <BAR> startinsert <CR>"),
-				dashboard.button("r", " " .. " Recent files", "<cmd> Telescope oldfiles <CR>"),
-				dashboard.button("g", "󰊄 " .. " Find text", "<cmd>Telescope live_grep <CR>"),
-				dashboard.button("z", "󰰶 " .. " Zoxide", [[<cmd>lua require("telescope").extensions.zoxide.list()<cr>]]),
-				dashboard.button("t", " " .. " Terminal", "<cmd>terminal<cr>"),
-				dashboard.button("c", " " .. " Config", "<cmd>e $MYVIMRC <CR>"),
-				dashboard.button("s", " " .. " Restore Session", [[<cmd>lua require("persistence").load() <cr>]]),
-				dashboard.button("l", " " .. " Packages", "<cmd>Lazy<CR>"),
-				dashboard.button("q", "󰅖 " .. " Quit", "<cmd>qa<CR>"),
+				dashboard.button("f", "󰈞 " .. " - Find file", "<cmd>Telescope find_files <CR>"),
+				dashboard.button("n", " " .. " - New file", "<cmd>ene <BAR> startinsert <CR>"),
+        dashboard.button("g", "󰊄 " .. " - Find text", "<cmd>Telescope live_grep <CR>"),
+        dashboard.button("r", " " .. " - Recent files", "<cmd> Telescope oldfiles <CR>"),
+        dashboard.button("s", " " .. " - Restore Session", [[<cmd>lua require("persistence").load() <cr>]]),
+				dashboard.button("z", "󰰶 " .. " - Zoxide", [[<cmd>lua require("telescope").extensions.zoxide.list()<cr>]]),
+				dashboard.button("t", " " .. " - Terminal", "<cmd>terminal<cr>"),
+				dashboard.button("c", " " .. " - Config", "<cmd>e $MYVIMRC <CR>"),
+				dashboard.button("p", " " .. " - Packages", "<cmd>Lazy<CR>"),
+				dashboard.button("q", "󰅖 " .. " - Quit", "<cmd>qa<CR>"),
 			}
 			for _, button in ipairs(dashboard.section.buttons.val) do
 				button.opts.hl = "AlphaButtons"

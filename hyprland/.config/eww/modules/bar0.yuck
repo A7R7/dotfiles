@@ -24,7 +24,7 @@
     (box
       :class "time ${timer-visible ? "time-hover" : ""}"
       :halign "center"
-      :valign "baseline"
+      :valign "center"
       ; :space-evenly false
       ; :spacing 3
       :style "padding: 0em ${timer-visible ? "1.318" : "0.9" }em; margin: 0 0 0.1em 0; font-size: 1em"
@@ -70,12 +70,11 @@
   (eventbox
     :onhover "eww update date-hover=true"
     :onhoverlost "eww update date-hover=false"
-    :halign "end" 
-    :valign "end"
+    :valign "center"
     :style "${debug}" ; can not set margin to eventbox?
     (box
       :class "date ${date-hover ? "date-hover" : ""}"
-      :style "margin-bottom: 0.4em; margin-right: 0.8em; padding-bottom: 0; font-size: 1.2em; ${debug}"
+      :style "margin-right: 0.8em; font-size: 1.2em; ${debug}"
       :space-evenly false
       :spacing 4
       (slide-n-fade
@@ -105,7 +104,7 @@
         :style "margin-right: -4px; margin-left: 1px;"
         ; :tooltip " ${date.weekday}, ${date.month} ${date.day}"
       )
-      (box
+      (box ; the moon-phase object
         :valign "center" :halign "center"
         :style "border-radius: 100px; border: 2.5px solid"
         :tooltip "${moon-phase.desc}"
@@ -137,12 +136,12 @@
     ; :onclick "firefox-developer-edition https://www.windy.com/?hrrrConus,45.445,-122.764,9 & disown"
     :cursor "pointer"
     :halign "start"
-    :valign "end"
+    :valign "center"
     :style "${debug}"
     (box
       :class "weather ${weather-info ? "weather-hover" : "" }"
       :space-evenly false :spacing 9
-      :style "margin-bottom: 0.4em; margin-left: 0.8em; font-size: 1.2em; ${debug}"
+      :style "margin-left: 0.8em; font-size: 1.2em; ${debug}"
       (box
         :space-evenly false :spacing 0
         :tooltip "${weather.desc}, ${weather.temp},  feels: ${weather.feels_like}"
@@ -228,7 +227,7 @@
 (defwidget time-stamp [mon_i h m icon desc]
   (box ;sunrise
     :halign "start"
-    :valign "end"
+    :valign "center"
     :style "font-size: 1.8em;
             font-family: FiraCode Nerd Font Mono;
             margin-left: ${round(mon_w[mon_i] * (h * 60 + m) / 1440, 0)}; 
@@ -306,15 +305,14 @@
     (time-progress :mon_i 0)
     (centerbox
       (box
-        (box 
-          :halign "start" 
+        (box :halign "start" 
           :space-evenly false
           (overview_button)
+          (separator)
           (workspaces :monitor 0))
         (box :halign "end" (date))
       )
       (box
-        :halign "center"
         (time)
       )
       (box
@@ -325,33 +323,3 @@
   )
   ;}}}
 )
-; (defwidget bar0 []
-; {{{
-;     (box :class "bar" :orientation "horizontal" :halign "fill" :valign "fill"
-;       :style "${debug}"
-;       :space-evenly false ;it seems that halign "center" will work only if parent box space-evenly is set to true
-;       (box
-;         :halign "fill"
-;         :style "${debug}"
-;         (box
-;           :space-evenly false
-;           (overview_button)
-;           (workspaces :monitor 0)
-;         )
-;         (date)
-;       )
-;       (box
-;         :halign "center"
-;         :style "${debug}"
-;         (time)
-;       )
-;       (box
-;         :halign "fill"
-;         ; (weather)
-;         ; (cpu)
-;         ; (memory)
-;         ; (power)
-;       )
-;     )
-;}}}
-; )

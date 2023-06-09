@@ -282,8 +282,4 @@ return {
 		--}}}
 	},
 
-	{
-		"sudormrfbin/cheatsheet.nvim",
-		cmd = { "Cheatsheet" },
-	},
 }

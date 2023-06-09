@@ -1,20 +1,40 @@
 local Util = require("util")
 
+local function register(mode, lhs, rhs, opts)
+  local keys = require("lazy.core.handler").handlers.keys
+  -- do not create the keymap if a lazy keys handler exists
+  if not keys.active[keys.parse({ lhs, mode = mode }).id] then
+    opts = opts or {}
+    opts.silent = opts.silent ~= false
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+end
+
 local function map(mode, lhs, rhs, opts)
-	local keys = require("lazy.core.handler").handlers.keys
-	-- do not create the keymap if a lazy keys handler exists
-	if not keys.active[keys.parse({ lhs, mode = mode }).id] then
-		opts = opts or {}
-		opts.silent = opts.silent ~= false
-		vim.keymap.set(mode, lhs, rhs, opts)
-	end
+  if type(mode) == "string" then
+    register(mode, lhs, rhs, opts)
+  elseif type(mode) == "table" then
+    for _, m in ipairs(mode) do
+      register(m, lhs, rhs, opts)
+    end
+  end
 end
 
 map("i", "<esc>", "<right><esc>", { silent = true })
 -- copy to system clipboard
-map("n", "<D-c>", '"+yy', { desc = "Copy to system clipboard" })
-map("v", "<D-c>", '"+y', { desc = "Copy to system clipboard" })
-map("n", "<A-p>", '"0p', { desc = "Paste last yanked" })
+-- map("n", "<D-c>", '"+yy', { desc = "Copy to system clipboard" })
+-- map("v", "<D-c>", '"+y', { desc = "Copy to system clipboard" })
+-- map("n", "<A-p>", '"*p', { desc = "Paste from system clipboard" })
+map("n", "<C-c>", '"*yy', { desc = "Copy line to system clipboard" })
+map("v", "<C-c>", '"*y', { desc = "Copy to system clipboard" })
+map("n", "<C-v>", '"*p', { desc = "Paste from system clipboard" })
+map("i", "<C-v>", '<C-r>*', { desc = "Paste from system clipboard" })
+map("c", "<C-v>", '<C-r>*', { desc = "Paste from system clipboard" })
+map("n", "<C-p>", '"0p', { desc = "Paste last yanked" })
+map("v", "<C-p>", '"0p', { desc = "Paste last yanked" })
+map("c", "<C-p>", '<C-r>"', { desc = "Paste from neovim clipboard" })
+-- enter v-block faster
+map("n", "vv", '<C-v>', { desc = "Copy to system clipboard" })
 -- better up/down
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -22,58 +42,33 @@ map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map("n", "<cr>", "o<esc>", { desc = "insert newline" })
 map("n", "<S-cr>", "O<esc>", { desc = "insert newline" })
 
+-- windows
+map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+map("n", "<leader>w\\", "<C-W>s", { desc = "Split window below" })
+map("n", "<leader>w|", "<C-W>v", { desc = "Split window right" })
+map("n", "\\", "<C-W>s", { desc = "Split window below" })
+map("n", "|",  "<C-W>v", { desc = "Split window right" })
+map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+map("n", "<C-q>", "<C-W>c", { desc = "Delete window" })
+
 if Util.has("smart-splits.nvim") then
 	-- Move to window using the <ctrl> hjkl keys
 	local split = require("smart-splits")
-	map("n", "<C-h>", function()
-		split.move_cursor_left()
-	end, { desc = "Go to left window" })
-	map("n", "<C-j>", function()
-		split.move_cursor_down()
-	end, { desc = "Go to lower window" })
-	map("n", "<C-k>", function()
-		split.move_cursor_up()
-	end, { desc = "Go to upper window" })
-	map("n", "<C-l>", function()
-		split.move_cursor_right()
-	end, { desc = "Go to right window" })
-	map("t", "<C-h>", function()
-		split.move_cursor_left()
-	end, { desc = "Go to left window" })
-	map("t", "<C-j>", function()
-		split.move_cursor_down()
-	end, { desc = "Go to lower window" })
-	map("t", "<C-k>", function()
-		split.move_cursor_up()
-	end, { desc = "Go to upper window" })
-	map("t", "<C-l>", function()
-		split.move_cursor_right()
-	end, { desc = "Go to right window" })
+	map({"n", "t"}, "<C-h>",  split.move_cursor_left, { desc = "Go to left window" })
+	map({"n", "t"}, "<C-j>",  split.move_cursor_down, { desc = "Go to lower window" })
+	map({"n", "t"}, "<C-k>",  split.move_cursor_up, { desc = "Go to upper window" })
+	map({"n", "t"}, "<C-l>",  split.move_cursor_right, { desc = "Go to right window" })
 	-- Resize window using <ctrl> arrow keys
-	map("n", "<C-Up>", function()
-		split.resize_up()
-	end, { desc = "Resize window up" })
-	map("n", "<C-Down>", function()
-		split.resize_down()
-	end, { desc = "Resize window down" })
-	map("n", "<C-Left>", function()
-		split.resize_left()
-	end, { desc = "Resize window left" })
-	map("n", "<C-Right>", function()
-		split.resize_right()
-	end, { desc = "Resize window right" })
-	map("t", "<C-Up>", function()
-		split.resize_up()
-	end, { desc = "Resize window up" })
-	map("t", "<C-Down>", function()
-		split.resize_down()
-	end, { desc = "Resize window down" })
-	map("t", "<C-Left>", function()
-		split.resize_left()
-	end, { desc = "Resize window left" })
-	map("t", "<C-Right>", function()
-		split.resize_right()
-	end, { desc = "Resize window right" })
+	map({"n", "t"}, "<C-Up>",    split.resize_up,    { desc = "Resize window up" })
+	map({"n", "t"}, "<C-Down>",  split.resize_down,  { desc = "Resize window down" })
+	map({"n", "t"}, "<C-Left>",  split.resize_left,  { desc = "Resize window left" })
+	map({"n", "t"}, "<C-Right>", split.resize_right, { desc = "Resize window right" })
+-- swapping buffers between windows
+  map('n', '<leader><C-h>', split.swap_buf_left,  { desc = "Swap window left"})
+  map('n', '<leader><C-j>', split.swap_buf_down,  { desc = "Swap window down"})
+  map('n', '<leader><C-k>', split.swap_buf_up,    { desc = "Swap window up"})
+  map('n', '<leader><C-l>', split.swap_buf_right, { desc = "Swap window right"})
 else
 	-- Move to window using the <ctrl> hjkl keys
 	map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
@@ -120,9 +115,7 @@ map("n", "<leader>bt", "<cmd>terminal<cr>", { desc = "New Terminal Buffer" })
 map("n", "<leader>n", "<cmd>nohlsearch<cr>", { desc = "Clear search highlights" })
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
-map(
-	"n",
-	"<leader>ur",
+map( "n", "<leader>ur",
 	"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
 	{ desc = "Redraw / clear hlsearch / diff update" }
 )
@@ -130,12 +123,8 @@ map(
 map({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
-map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map({"n","x", "o"}, "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map({"n","x", "o"}, "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 -- Add undo break-points
 -- map("i", ",", ",<c-g>u")
@@ -197,32 +186,12 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 -- map("t", "<esc><esc>", "<c-\\><c-n>", {desc = "Enter Normal Mode"})
 
 if Util.has("toggleterm.nvim") then
-  map("n", "<A-f>", "<cmd>ToggleTerm direction=float<cr>", {desc = "ToggleTerm float"})
-  map("n", "<A-h>", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", {desc = "ToggleTerm horizontal"})
-  map("n", "<A-v>", "<cmd>ToggleTerm size=80 direction=vertical<cr>", {desc = "ToggleTerm vertical"})
-  map("t", "<A-f>", "<cmd>ToggleTerm direction=float<cr>", {desc = "ToggleTerm float"})
-  map("t", "<A-h>", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", {desc = "ToggleTerm horizontal"})
-  map("t", "<A-v>", "<cmd>ToggleTerm size=80 direction=vertical<cr>", {desc = "ToggleTerm vertical"})
+  map({"n", "t"}, "<A-f>", "<cmd>ToggleTerm direction=float<cr>", {desc = "ToggleTerm float"})
+  map({"n", "t"}, "<A-h>", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", {desc = "ToggleTerm horizontal"})
+  map({"n", "t"}, "<A-v>", "<cmd>ToggleTerm size=80 direction=vertical<cr>", {desc = "ToggleTerm vertical"})
   map("t", "<esc><esc>", vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), {desc = "escape terminal mode"})
 end
--- if Util.has("nvterm") then
---   local nvterm = require("nvterm.terminal")
---   map("n", "<A-f>", function() nvterm.toggle "float" end, {desc = "ToggleTerm float"})
---   map("n", "<A-h>", function() nvterm.toggle "horizontal" end, {desc = "ToggleTerm horizontal"})
---   map("n", "<A-v>", function() nvterm.toggle "vertical" end, {desc = "ToggleTerm vertical"})
---   map("t", "<A-f>", function() nvterm.toggle "float" end, {desc = "ToggleTerm float"})
---   map("t", "<A-h>", function() nvterm.toggle "horizontal" end, {desc = "ToggleTerm horizontal"})
---   map("t", "<A-v>", function() nvterm.toggle "vertical" end, {desc = "ToggleTerm vertical"})
--- end
--- windows
-map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
-map("n", "<leader>w\\", "<C-W>s", { desc = "Split window below" })
-map("n", "<leader>w|", "<C-W>v", { desc = "Split window right" })
-map("n", "\\", "<C-W>s", { desc = "Split window below" })
-map("n", "|",  "<C-W>v", { desc = "Split window right" })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
-map("n", "<C-q>", "<C-W>c", { desc = "Delete window" })
+
 
 -- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
@@ -236,6 +205,10 @@ map("n", "<leader>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 if Util.has("telescope-zoxide") then
   map("n", "<leader>z", function () require("telescope").extensions.zoxide.list() end, { desc = "zoxide"})
+end
+
+if Util.has("cheatsheet") then
+  map("n", "<leader>?", "<cmd>cheatsheet<cr>", {desc = "Cheatsheet"})
 end
 
 if Util.has("neo-tree.nvim") then

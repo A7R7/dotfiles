@@ -9,12 +9,10 @@
 (defwidget media-header []
   (box
     :space-evenly false
-    :valign "baseline"
     :style "margin: 0 1em -0.2em 1em; ${debug}"
     ; :class "bar-button"
     (label 
       :style "color: white; ${debug};"
-      :valign "baseline"
       :text "${player.artist} - ${player.title}")
   )
 )
@@ -83,41 +81,21 @@
     (centerbox
       :style "font-size: 0.845em;"  ; due to some special reason.
       (box
-        :halign "start"
         :space-evenly false
         :style "${debug};"
         (overview_button)
+        (separator)
         (workspaces :monitor 1)
+        ; (separator)
         ; (separator)
       )
       (box
-        :halign "center"
-        :space-evenly false
         ; :style "border: 1px solid white"
         (media-header))
       (box
-        :halign "end"
-        :space-evenly false
         ; :style "border: 1px solid white"
         (media-controller)
       )
     )
   )
 )
-; (defwidget bar1 []
-;   (box
-;     :space-evenly false
-;     (box 
-;       :halign "start"
-;       :hexpand true
-;       :style "${debug};"
-;       (workspaces :monitor 1)
-;     )
-;     (box 
-;       :halign "end"
-;       :hexpand true
-;       :style "${debug};"
-;       (time)
-;     )
-;   )
-; )

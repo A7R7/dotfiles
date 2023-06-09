@@ -74,39 +74,30 @@
 
 (defwidget overview_button []
   (button 
-    :class "bar-button-2"
-    :onclick 
-      "${show_overview ? 
-       'eww update show_overview=false;
-        eww close overview0; eww close overview1; eww close overview2;' : 
-       'eww open-many overview0 overview1 overview2;
-        eww update show_overview=true;node scripts/overview.js;
+    :class "bar-button"
+    :onclick " ${show_overview ? 
+       '${EWW_CMD} update show_overview=false;
+        ${EWW_CMD} close overview0; ${EWW_CMD} close overview1; ${EWW_CMD} close overview2;' : 
+       '${EWW_CMD} open-many overview0 overview1 overview2;
+        ${EWW_CMD} update show_overview=true; node scripts/overview.js;
       '
     }"
-    :halign "center"
-    :valign "end"
-    :style " ${debug}; margin: 0 0.3em; padding: 0.3em"
+    :style " ${debug}; margin: 0 0.5em; padding: 0.4em"
+    (label
+      :halign "center" :valign "center"
+      :style "font-size: 1.4em; margin: -0.4em 0"
+      :text "󰾍"
+    )
     ; (label 
     ;   :class "bar-button overview ${show_overview ? "show" : "hide"}"
     ;   :text "󰔶"
     ;   :style "font-size: 1.5em;"
     ; )
-    (image 
-      :class "bar-button-2 overview ${show_overview ? "show" : "hide"}"
-      :path "images/rankings.svg"
-      :image-width 30
-      :image-height 30
-    )
+    ; (image 
+    ;   :class "bar-button-2 overview ${show_overview ? "show" : "hide"}"
+    ;   :path "images/rankings.svg"
+    ;   :image-width 30
+    ;   :image-height 30
+    ; )
   )
 )
-; (defvar boolvar false)
-; (defwidget test []
-;   (button :onclick "${EWW_CMD} update boolvar=${boolvar?false:true}"
-;     (image 
-;       :class "${boolvar? 'a1' : 'a2'}" 
-;       :path "./images/rankings.svg"
-;       :image-width 30
-;       :image-height 30
-;     )
-;   )
-; )

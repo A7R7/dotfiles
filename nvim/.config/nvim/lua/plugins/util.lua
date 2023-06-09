@@ -59,23 +59,38 @@ return {
 	},
 	{
 		"nvim-neorg/neorg",
-		dependencies = { { "nvim-lua/plenary.nvim" } },
+		dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-neorg/neorg-telescope" },
+    },
 		--{{{
 		event = "BufEnter",
 		build = ":Neorg sync-parsers",
 		opts = {
 			load = {
 				["core.defaults"] = {}, -- Loads default behaviour
+        ["core.integrations.telescope"] = {},
 				["core.concealer"] = {}, -- Adds pretty icons to your documents
 				["core.dirman"] = { -- Manages Neorg workspaces
-					config = {
-						workspaces = {
-							notes = "~/notes",
-						},
-					},
+					config = { workspaces = { notes = "~/notes", }, },
 				},
 			},
 		},
+    config = function (_, opts)
+      require("neorg").setup(opts)
+      local neorg_callbacks = require("neorg.callbacks")
+      neorg_callbacks.on_event("core.keybinds.events.enable_keybinds",
+        function(_, keybinds)
+          keybinds.map_event_to_mode("norg",
+            {
+              n = { { "<C-s>", "core.integrations.telescope.find_linkable" }, },
+              i = { { "<C-l>", "core.integrations.telescope.insert_link" }, },
+            },
+            { silent = true, noremap = true, }
+          )
+        end, nil -- content filter
+      )
+    end,
 		--}}}
 	},
 }

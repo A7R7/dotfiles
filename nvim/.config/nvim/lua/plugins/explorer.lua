@@ -14,6 +14,10 @@ return {
 			"nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim",
 			"jvgrootveld/telescope-zoxide",
+      {
+        "sudormrfbin/cheatsheet.nvim",
+        cmd = { "Cheatsheet" },
+      },
 		},
 		--{{{
 		config = function()

@@ -7,7 +7,7 @@
       (box 
         :space-evenly false
         (overview_button)
-        ; (workspaces :monitor 2)
+        (separator)
         (workspaces :monitor 2)
       )
       (box 

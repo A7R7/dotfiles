@@ -44,7 +44,6 @@ local M = {
 	{
 		"navarasu/onedark.nvim",
 		-- {{{
-		lazy = true,
 		name = "onedark",
 		config = function()
 			require("onedark").setup({
@@ -114,6 +113,17 @@ local M = {
 		end,
 		--}}}
 	},
+  {
+    'maxmx03/fluoromachine.nvim',
+    config = function ()
+      local fm = require 'fluoromachine'
+      fm.setup {
+        glow = true,
+        theme = 'fluoromachine'
+      }
+      vim.cmd.colorscheme 'fluoromachine'
+    end
+  }
 }
 
 M.name = "tokyonight-storm"

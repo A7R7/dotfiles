@@ -21,18 +21,28 @@ local function map(mode, lhs, rhs, opts)
 end
 
 map("i", "<esc>", "<right><esc>", { silent = true })
--- copy to system clipboard
--- map("n", "<D-c>", '"+yy', { desc = "Copy to system clipboard" })
--- map("v", "<D-c>", '"+y', { desc = "Copy to system clipboard" })
--- map("n", "<A-p>", '"*p', { desc = "Paste from system clipboard" })
-map("n", "<C-c>", '"*yy', { desc = "Copy line to system clipboard" })
-map("v", "<C-c>", '"*y', { desc = "Copy to system clipboard" })
-map("n", "<C-v>", '"*p', { desc = "Paste from system clipboard" })
-map("i", "<C-v>", '<C-r>*', { desc = "Paste from system clipboard" })
-map("c", "<C-v>", '<C-r>*', { desc = "Paste from system clipboard" })
-map("n", "<C-p>", '"0p', { desc = "Paste last yanked" })
-map("v", "<C-p>", '"0p', { desc = "Paste last yanked" })
-map("c", "<C-p>", '<C-r>"', { desc = "Paste from neovim clipboard" })
+
+-- easy movement
+  map({"n", "v"}, "H", '^', {desc = "Goto line start"})
+  map({"n", "v"}, "L", '$', {desc = "Goto line end"})
+  map({"n", "v"}, "J", '<C-d>', {desc = "Move down"})
+  map({"n", "v"}, "K", '<C-u>', {desc = "Move up"})
+
+--join  union
+  map("n", "<C-u>", "J", {desc = "union 2 line"})
+  map("i", "<C-u>", "<esc>Ji", {desc = "union 2 line"})
+-- clipboard
+  --copy to system clipboard
+  map("n", "<C-c>", '"+yy', { desc = "Copy line to system clipboard" })
+  map("v", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+  --paste from system clipboard
+  map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
+  map("i", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard" })
+  map("c", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard" })
+  --paste last yanked
+  map("n", "<C-p>", '"0p', { desc = "Paste last yanked" })
+  map("v", "<C-p>", '"0p', { desc = "Paste last yanked" })
+  map("c", "<C-p>", '<C-r>"', { desc = "Paste from neovim clipboard" })
 -- enter v-block faster
 map("n", "vv", '<C-v>', { desc = "Copy to system clipboard" })
 -- better up/down
@@ -84,10 +94,10 @@ end
 
 -- Move Lines
 map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
 map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
+map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
+map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
 map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 --undo

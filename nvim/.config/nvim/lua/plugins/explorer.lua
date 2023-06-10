@@ -102,48 +102,21 @@ return {
 			{ "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
 			{ "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
 			{
-				"<leader>ss",
-				Util.telescope("lsp_document_symbols", {
-					symbols = {
-						"Class",
-						"Function",
-						"Method",
-						"Constructor",
-						"Interface",
-						"Module",
-						"Struct",
-						"Trait",
-						"Field",
-						"Property",
-					},
-				}),
-				desc = "Goto Symbol",
+				"<leader>ss", Util.telescope("lsp_document_symbols", {
+					symbols = { "Class", "Function", "Method", "Constructor", "Interface",
+            "Module", "Struct", "Trait", "Field", "Property", },
+				}), desc = "Goto Symbol",
 			},
 			{
-				"<leader>sS",
-				Util.telescope("lsp_workspace_symbols", {
-					symbols = {
-						"Class",
-						"Function",
-						"Method",
-						"Constructor",
-						"Interface",
-						"Module",
-						"Struct",
-						"Trait",
-						"Field",
-						"Property",
-					},
-				}),
-				desc = "Goto Symbol (Workspace)",
+				"<leader>sS", Util.telescope("lsp_workspace_symbols", {
+					symbols = { "Class", "Function", "Method", "Constructor", "Interface",
+						"Module", "Struct", "Trait", "Field", "Property", },
+				}), desc = "Goto Symbol (Workspace)",
 			},
 			{ "<leader>su", "<cmd>Telescope undo<cr>", desc = "Undo Tree" },
 			{ "<leader>sw", Util.telescope("grep_string"), desc = "Word (root dir)" },
 			{ "<leader>sW", Util.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
-			{
-				"<leader>uC",
-				Util.telescope("colorscheme", { enable_preview = true }),
-				desc = "Colorscheme with preview",
+			{ "<leader>uC", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview",
 			},
 		},
 		opts = {
@@ -152,35 +125,17 @@ return {
 				selection_caret = " ",
 				mappings = {
 					i = {
-						["<c-t>"] = function(...)
-							return require("trouble.providers.telescope").open_with_trouble(...)
-						end,
-						["<a-t>"] = function(...)
-							return require("trouble.providers.telescope").open_selected_with_trouble(...)
-						end,
-						["<a-i>"] = function()
-							Util.telescope("find_files", { no_ignore = true })()
-						end,
-						["<a-h>"] = function()
-							Util.telescope("find_files", { hidden = true })()
-						end,
-						["<C-Down>"] = function(...)
-							return require("telescope.actions").cycle_history_next(...)
-						end,
-						["<C-Up>"] = function(...)
-							return require("telescope.actions").cycle_history_prev(...)
-						end,
-						["<C-f>"] = function(...)
-							return require("telescope.actions").preview_scrolling_down(...)
-						end,
-						["<C-b>"] = function(...)
-							return require("telescope.actions").preview_scrolling_up(...)
-						end,
+						["<c-t>"] = function(...) return require("trouble.providers.telescope").open_with_trouble(...) end,
+						["<a-t>"] = function(...) return require("trouble.providers.telescope").open_selected_with_trouble(...) end,
+						["<a-i>"] = function() Util.telescope("find_files", { no_ignore = true })() end,
+						["<a-h>"] = function() Util.telescope("find_files", { hidden = true })() end,
+						["<C-Down>"] = function(...) return require("telescope.actions").cycle_history_next(...) end,
+						["<C-Up>"] = function(...) return require("telescope.actions").cycle_history_prev(...) end,
+						["<C-f>"] = function(...) return require("telescope.actions").preview_scrolling_down(...) end,
+						["<C-b>"] = function(...) return require("telescope.actions").preview_scrolling_up(...) end,
 					},
 					n = {
-						["q"] = function(...)
-							return require("telescope.actions").close(...)
-						end,
+						["q"] = function(...) return require("telescope.actions").close(...) end,
 					},
 				},
 			},

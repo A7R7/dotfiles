@@ -4,34 +4,34 @@ local utils = require('_utils')
 return {
 
 --int-------------------------------------------------------------------------------
-s({trig = "II ", snippetType="autosnippet"},
+s({trig = "int ", snippetType="autosnippet"},
   fmta( [[\int_{<>}^{<>} ]], {i(1), i(2)}),
   {condition = tex.in_mathzone}
 ),
 
 
-s({trig = "II;", snippetType="autosnippet"},
+s({trig = "int;", snippetType="autosnippet"},
   fmta( [[\int_{<>} ]], {i(1)}),
   {condition = tex.in_mathzone}
 ),
 
 
-s({trig = "IIff", snippetType="autosnippet"},
+s({trig = "intff", snippetType="autosnippet"},
   t( [[\int_{-\infty}{+\infty}]]),
   {condition = tex.in_mathzone}
 ),
 
-s({trig = "II(%a)f", regTrig = true, wordTrig = false, snippetType="autosnippet"},
+s({trig = "int(%a)f", regTrig = true, wordTrig = false, snippetType="autosnippet"},
   fmta( [[\int_{<>}{+\infty}]], {f(utils.capture1)}),
   {condition = tex.in_mathzone}
 ),
 
-s({trig = "IIf(%a)", regTrig = true, wordTrig = false, snippetType="autosnippet"},
+s({trig = "intf(%a)", regTrig = true, wordTrig = false, snippetType="autosnippet"},
   fmta( [[\int_{-\infty}{<>}]], {f(utils.capture1)}),
   {condition = tex.in_mathzone}
 ),
 
-s({trig = "II([%a%d])([%a%d]);", regTrig = true, wordTrig = false, snippetType="autosnippet"},
+s({trig = "int([%a%d])([%a%d]);", regTrig = true, wordTrig = false, snippetType="autosnippet"},
   fmta( [[\int_{<>}{<>}]], {f(utils.capture1), f(utils.capture2)}),
   {condition = tex.in_mathzone}
 ),

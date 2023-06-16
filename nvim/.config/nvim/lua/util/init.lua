@@ -211,4 +211,9 @@ function M.lazy_notify()
 	--}}}
 end
 
+function M.reload_module(module_name)
+    package.loaded[module_name] = nil
+    return require(module_name)
+end
+
 return M

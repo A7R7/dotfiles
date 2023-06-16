@@ -8,11 +8,11 @@ return {
 		fmta([[\mathbf{Pr}( <> )]], { i(1) }),
 		{ condition = tex.in_mathzone }
 	),
-	s(
-		{ trig = "exp", snippetType = "autosnippet" },
-		fmta([=[\mathbf{E}[ <> ]]=], { i(1) }),
-		{ condition = tex.in_mathzone }
-	),
+	-- s(
+	-- 	{ trig = "exp", snippetType = "autosnippet" },
+	-- 	fmta([=[\mathbf{E}[ <> ]]=], { i(1) }),
+	-- 	{ condition = tex.in_mathzone }
+	-- ),
 	s({ trig = "real", snippetType = "autosnippet" }, { t([[\mathbb{R} ]]) }, { condition = tex.in_mathzone }),
 	s({ trig = "sigf", snippetType = "autosnippet" }, { t([[\mathcal{F} ]]) }, { condition = tex.in_mathzone }),
 	s(

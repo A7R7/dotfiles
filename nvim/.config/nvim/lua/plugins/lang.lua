@@ -30,7 +30,6 @@ return {
 		"kaarmu/typst.vim",
 		ft = "typst",
 		keys = {
-			{ "<leader>ll", "<cmd>TypstWatch<cr>", desc = "Typst watch compile" },
 		},
 	},
 	{

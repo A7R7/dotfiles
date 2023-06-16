@@ -2,11 +2,19 @@ local Util = require("util")
 
 local function register(mode, lhs, rhs, opts)
   local keys = require("lazy.core.handler").handlers.keys
+  ---@cast keys LazyKeysHandler
   -- do not create the keymap if a lazy keys handler exists
   if not keys.active[keys.parse({ lhs, mode = mode }).id] then
-    opts = opts or {}
-    opts.silent = opts.silent ~= false
-    vim.keymap.set(mode, lhs, rhs, opts)
+    local _opts = nil
+    if type(opts) == "string" then
+      _opts = {desc = opts, silent = true}
+    elseif type(opts) == "table" then
+      _opts = opts
+      _opts.silent = opts.silent ~= false
+    else
+      _opts = {silent = true}
+    end
+    vim.keymap.set(mode, lhs, rhs, _opts)
   end
 end
 
@@ -14,8 +22,8 @@ local function map(mode, lhs, rhs, opts)
   if type(mode) == "string" then
     register(mode, lhs, rhs, opts)
   elseif type(mode) == "table" then
-    for _, m in ipairs(mode) do
-      register(m, lhs, rhs, opts)
+    for _, _mode in ipairs(mode) do
+      register(_mode, lhs, rhs, opts)
     end
   end
 end
@@ -27,7 +35,6 @@ map("i", "<esc>", "<right><esc>", { silent = true })
   map({"n", "v"}, "L", '$', {desc = "Goto line end"})
   map({"n", "v"}, "J", '<C-d>', {desc = "Move down"})
   map({"n", "v"}, "K", '<C-u>', {desc = "Move up"})
-
 --join  union
   map("n", "<C-u>", "J", {desc = "union 2 line"})
   map("i", "<C-u>", "<esc>Ji", {desc = "union 2 line"})
@@ -104,8 +111,10 @@ map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 map("n", "<C-z>", "u", { desc = "Undo" })
 -- buffers
 if Util.has("bufferline.nvim") then
-	map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-	map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+	-- map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+	-- map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+	map("n", "<C-,>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+	map("n", "<C-.>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 	map("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
 	map("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
 	map("n", "<leader>bp", "<cmd>BufferLineTooglePin<cr>", { desc = "Toggle pin" })
@@ -217,6 +226,43 @@ if Util.has("telescope-zoxide") then
   map("n", "<leader>z", function () require("telescope").extensions.zoxide.list() end, { desc = "zoxide"})
 end
 
+map("n", "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<cr>", "Switch Buffer" )
+map("n", "<leader>/", Util.telescope("live_grep"), "Find in Files (Grep)" )
+map("n", "<leader>:", "<cmd>Telescope command_history<cr>", "Command History" )
+map("n", "<leader><space>", Util.telescope("files"), "Find Files (root dir)" )
+--  find
+map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", "Buffers" )
+map("n", "<leader>ff", Util.telescope("files"), "Find Files (root dir)" )
+map("n", "<leader>fF", Util.telescope("files", { cwd = false }), "Find Files (cwd)" )
+map("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", "Recent" )
+map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", "Help Pages" )
+--  git
+map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", "commits" )
+map("n", "<leader>gs", "<cmd>Telescope git_status<CR>", "status" )
+-- search
+map("n", "<leader>sa", "<cmd>Telescope autocommands<cr>", "Auto Commands" )
+map("n", "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Buffer" )
+map("n", "<leader>sc", "<cmd>Telescope command_history<cr>", "Command History" )
+map("n", "<leader>sC", "<cmd>Telescope commands<cr>", "Commands" )
+map("n", "<leader>sd", "<cmd>Telescope diagnostics<cr>", "Diagnostics" )
+map("n", "<leader>sg", Util.telescope("live_grep"), "Grep (root dir)" )
+map("n", "<leader>sG", Util.telescope("live_grep", { cwd = false }), "Grep (cwd)" )
+map("n", "<leader>sH", "<cmd>Telescope highlights<cr>", "Search Highlight Groups" )
+map("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", "Key Maps" )
+map("n", "<leader>sM", "<cmd>Telescope man_pages<cr>", "Man Pages" )
+map("n", "<leader>sm", "<cmd>Telescope marks<cr>", "Jump to Mark" )
+map("n", "<leader>so", "<cmd>Telescope vim_options<cr>", "Options" )
+map("n", "<leader>sR", "<cmd>Telescope resume<cr>", "Resume" )
+
+local symbols = {"Class", "Function", "Method", "Constructor", "Interface", "Module", "Struct", "Trait", "Field", "Property",}
+map("n", "<leader>ss", Util.telescope("lsp_document_symbols", { symbols = symbols, }), "Goto Symbol")
+map("n", "<leader>sS", Util.telescope("lsp_workspace_symbols", { symbols = symbols, }), "Goto Symbol (Workspace)")
+
+map("n", "<leader>su", "<cmd>Telescope undo<cr>", "Undo Tree")
+map("n", "<leader>sw", Util.telescope("grep_string"), "Word (root dir)")
+map("n", "<leader>sW", Util.telescope("grep_string", { cwd = false }), "Word (cwd)")
+map("n", "<leader>uC", Util.telescope("colorscheme", { enable_preview = true }), "Colorscheme with preview")
+
 if Util.has("cheatsheet") then
   map("n", "<leader>?", "<cmd>cheatsheet<cr>", {desc = "Cheatsheet"})
 end
@@ -235,3 +281,28 @@ if Util.has("neo-tree.nvim") then
     end,
     {desc = "toggle neo-tree"})
 end
+
+-- watch compile
+map ("n", "<leader>ll",
+  function ()
+    if vim.bo.filetype == "typ" then
+      vim.cmd("TypstWatch")
+    elseif vim.bo.filetype == "tex" then
+      vim.cmd("VimtexCompile")
+    end
+  end,
+  {desc = "Watch compile"} )
+
+-- -- luasnip
+local ls = require("luasnip")
+map ("i", "<tab>", function() return ls.jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>" end, {})
+map ("n", "<leader>lr",
+  function()
+    require("luasnip.loaders.from_lua").lazy_load({paths="~/.config/nvim/luasnip/"})
+    require("notify")("snippets reloaded", nil, {title = "LuaSnip"})
+  end,
+  "reload luasnip snippets"
+)
+
+map ("n", "<leader>rk", function() vim.cmd("mapclear") Util.reload_module("core.keymaps") end, {desc = "reload keymaps"})
+map ("n", "<leader>yk", function() require("notify")("it is a test message!") end, {desc = "test"})

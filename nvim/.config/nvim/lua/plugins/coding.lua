@@ -3,6 +3,7 @@
 return {
 	{
 		"L3MON4D3/LuaSnip", --  snippets
+		event = "InsertEnter",
 		--{{{
 		--
 		opts = {
@@ -17,33 +18,50 @@ return {
 			require("luasnip").config.set_config(opts)
 			require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/luaSnip/" })
 		end,
+    --}}}
 
-    -- stylua: ignore
-    keys = {
-      { "<a-l>", function() local ls = require("luasnip") if ls.locally_jumpable() then ls.jump(1) end end, mode = {"n", "i", "s" } },
-      { "<a-h>", function() local ls = require("luasnip") if ls.locally_jumpable() then ls.jump(-1) end end, mode = {"n", "i", "s" } },
-      {
-        "<Leader>lr",
-        function ()
-          require("luasnip.loaders.from_lua").lazy_load({paths="~/.config/nvim/luasnip/"})
-          require("notify")("snippets reloaded", nil, {title = "LuaSnip"})
-        end,
-        desc = "reload luasnip snippets",
-      },
-    },
-		--}}}
 	},
+
+  {
+    "zbirenbaum/copilot.lua",
+    cond = false;
+    --{{{
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+    },
+    --}}}
+  },
 
 	{
 		"hrsh7th/nvim-cmp", --  auto completion
+		event = "InsertEnter",
 		--{{{
 		version = false, -- last release is way too old
-		event = "InsertEnter",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"saadparwaiz1/cmp_luasnip",
+      {
+        "zbirenbaum/copilot-cmp",
+        cond = false;
+        dependencies = "copilot.lua",
+        opts = {},
+        config = function(_, opts)
+          local copilot_cmp = require("copilot_cmp")
+          copilot_cmp.setup(opts)
+          -- attach cmp source whenever copilot attaches
+          -- fixes lazy-loading issues with the copilot cmp source
+          require("util").on_attach(function(client)
+            if client.name == "copilot" then
+              copilot_cmp._on_insert_enter()
+            end
+          end)
+        end,
+      },
 		},
 		opts = function()
 			local cmp = require("cmp")
@@ -64,9 +82,7 @@ return {
 					["<C-Space>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-					["<S-CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
+					["<S-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true,
 					}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
@@ -89,6 +105,23 @@ return {
 						hl_group = "LspCodeLens",
 					},
 				},
+        sorting = {
+          priority_weight = 2,
+          -- comparators = {
+          --   require("copilot_cmp.comparators").prioritize,
+          --   -- Below is the default comparitor list and order for nvim-cmp
+          --   cmp.config.compare.offset,
+          --   -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+          --   cmp.config.compare.exact,
+          --   cmp.config.compare.score,
+          --   cmp.config.compare.recently_used,
+          --   cmp.config.compare.locality,
+          --   cmp.config.compare.kind,
+          --   cmp.config.compare.sort_text,
+          --   cmp.config.compare.length,
+          --   cmp.config.compare.order,
+          -- },
+        }
 			}
 		end,
 		--}}}

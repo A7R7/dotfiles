@@ -65,4 +65,7 @@ M.starbound_neovim.color = function ()
   {'starbound_neovim_sun', 51, 55}
 }
 end
+
+M.colorful_nvim = [[
+]]
 return M

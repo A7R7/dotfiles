@@ -15,6 +15,9 @@ return {
 			},
 		},
 		opts = {
+      on_open = function(win)
+        vim.api.nvim_win_set_config(win, { zindex = 1000 })
+      end,
 			timeout = 2000,
 			max_height = function()
 				return math.floor(vim.o.lines * 0.75)
@@ -24,16 +27,12 @@ return {
 			end,
 			top_down = false,
 		},
-		init = function()
-			-- when noice is not enabled, install notify on VeryLazy
-			local Util = require("util")
-			if not Util.has("noice.nvim") then
-				Util.on_very_lazy(function()
-					vim.notify = require("notify")
-				end)
-			end
-		end,
-		--}}}
+    config = function(_, opts)
+      local notify = require "notify"
+      notify.setup(opts)
+      vim.notify = notify
+    end,
+		-- }}}
 	},
 
 	{
@@ -356,4 +355,6 @@ return {
 		},
 		--}}}
 	},
+
+  { 'Bekaboo/dropbar.nvim' }
 }

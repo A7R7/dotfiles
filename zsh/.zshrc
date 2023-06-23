@@ -44,7 +44,11 @@ eval $(thefuck --alias)
   alias la='ls -A'
   alias l='ls -CF'
 
-alias ext='extract'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias -- -='cd -'
+alias ex='extract'
 alias dmacs='emacs --with-profile doom'
 alias smacs='emacs --with-profile space'
 alias doom='~/.doomemacs.d/bin/doom'

@@ -128,6 +128,12 @@ return {
 
 			require("mason-lspconfig").setup({ ensure_installed = ensure_installed })
 			require("mason-lspconfig").setup_handlers({ setup })
+
+      if vim.g.lsp_handlers_enabled then
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", silent = true })
+        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true })
+      end
+
 		end,
 	},
 
@@ -164,7 +170,7 @@ return {
 				"flake8",
 			},
       ui = {
-        border = "single",
+        border = "single"
       }
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}

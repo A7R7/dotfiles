@@ -35,39 +35,39 @@ map("i", "<esc>", "<right><esc>", { silent = true })
   map({"n", "v"}, "L", '$', {desc = "Goto line end"})
   map({"n", "v"}, "J", '<C-d>', {desc = "Move down"})
   map({"n", "v"}, "K", '<C-u>', {desc = "Move up"})
+  map({"n", "v"}, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+  map({"n", "v"}, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 --join  union
   map("n", "<C-u>", "J", {desc = "union 2 line"})
   map("i", "<C-u>", "<esc>Ji", {desc = "union 2 line"})
--- clipboard
-  --copy to system clipboard
-  map("n", "<C-c>", '"+yy', { desc = "Copy line to system clipboard" })
-  map("v", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
-  --paste from system clipboard
-  map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
-  map("i", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard" })
-  map("c", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard" })
-  --paste last yanked
-  map("n", "<C-p>", '"0p', { desc = "Paste last yanked" })
-  map("v", "<C-p>", '"0p', { desc = "Paste last yanked" })
-  map("c", "<C-p>", '<C-r>"', { desc = "Paste from neovim clipboard" })
--- enter v-block faster
-map("n", "vv", '<C-v>', { desc = "Copy to system clipboard" })
--- better up/down
-map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 -- easy insert blank line
-map("n", "<cr>", "o<esc>", { desc = "insert newline" })
-map("n", "<S-cr>", "O<esc>", { desc = "insert newline" })
+  map("n", "<cr>", "o<esc>", { desc = "insert newline" })
+  map("n", "<S-cr>", "O<esc>", { desc = "insert newline" })
+-- -- clipboard
+--   --copy to system clipboard
+--   map("n", "<C-c>", '"+yy', { desc = "Copy line to system clipboard" })
+--   map("v", "<C-c>", '"+y', { desc = "Copy to system clipboard" })
+--   --paste from system clipboard
+--   map("n", "<C-v>", '"+p', { desc = "Paste from system clipboard" })
+--   map("i", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard" })
+--   map("c", "<C-v>", '<C-r>+', { desc = "Paste from system clipboard" })
+--   --paste last yanked
+--   map("n", "<C-p>", '"0p', { desc = "Paste last yanked" })
+--   map("v", "<C-p>", '"0p', { desc = "Paste last yanked" })
+--   map("c", "<C-p>", '<C-r>"', { desc = "Paste from neovim clipboard" })
+-- -- enter v-block faster
+-- map("n", "vv", '<C-v>', { desc = "Copy to system clipboard" })
+-- better up/down
 
 -- windows
-map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
-map("n", "<leader>w\\", "<C-W>s", { desc = "Split window below" })
-map("n", "<leader>w|", "<C-W>v", { desc = "Split window right" })
-map("n", "\\", "<C-W>s", { desc = "Split window below" })
-map("n", "|",  "<C-W>v", { desc = "Split window right" })
-map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
-map("n", "<C-q>", "<C-W>c", { desc = "Delete window" })
+  map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
+  map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+  map("n", "<leader>w\\", "<C-W>s", { desc = "Split window below" })
+  map("n", "<leader>w|", "<C-W>v", { desc = "Split window right" })
+  map("n", "\\", "<C-W>s", { desc = "Split window below" })
+  map("n", "|",  "<C-W>v", { desc = "Split window right" })
+  map("n", "<leader>wd", "<C-W>c", { desc = "Delete window" })
+  map("n", "<C-q>", "<C-W>c", { desc = "Delete window" })
 
 if Util.has("smart-splits.nvim") then
 	-- Move to window using the <ctrl> hjkl keys
@@ -186,7 +186,7 @@ map("n", "<leader>td", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
 map("n", "<leader>tm", "<cmd>set modifiable!<cr>", { desc = "Toggle Modifiable" })
 map("n", "<leader>tr", "<cmd>set readonly!<cr>", { desc = "Toggle Readonly" })
 
--- highlights under cursor
+-- highlights nder cursor
 if vim.fn.has("nvim-0.9.0") == 1 then
   map("n", "<leader>ti", vim.show_pos, { desc = "Inspect Pos" })
 end
@@ -285,7 +285,7 @@ end
 -- watch compile
 map ("n", "<leader>ll",
   function ()
-    if vim.bo.filetype == "typ" then
+    if vim.bo.filetype == "typst" then
       vim.cmd("TypstWatch")
     elseif vim.bo.filetype == "tex" then
       vim.cmd("VimtexCompile")
@@ -294,15 +294,17 @@ map ("n", "<leader>ll",
   {desc = "Watch compile"} )
 
 -- -- luasnip
-local ls = require("luasnip")
-map ("i", "<tab>", function() return ls.jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>" end, {})
-map ("n", "<leader>lr",
-  function()
-    require("luasnip.loaders.from_lua").lazy_load({paths="~/.config/nvim/luasnip/"})
-    require("notify")("snippets reloaded", nil, {title = "LuaSnip"})
-  end,
-  "reload luasnip snippets"
-)
+if Util.has("luasnip") then
+  local ls = require("luasnip")
+  map ("i", "<tab>", function() return ls.jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>" end, {})
+  map ("n", "<leader>lr",
+    function()
+      require("luasnip.loaders.from_lua").lazy_load({paths="~/.config/nvim/luasnip/"})
+      require("notify")("snippets reloaded", nil, {title = "LuaSnip"})
+    end,
+    "reload luasnip snippets"
+  )
+end
 
 map ("n", "<leader>rk", function() vim.cmd("mapclear") Util.reload_module("core.keymaps") end, {desc = "reload keymaps"})
 map ("n", "<leader>yk", function() require("notify")("it is a test message!") end, {desc = "test"})

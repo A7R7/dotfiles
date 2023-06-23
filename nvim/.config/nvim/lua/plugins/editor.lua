@@ -45,6 +45,9 @@ return {
 		--}}}
 	},
 
+  {
+    "gbprod/cutlass.nvim",
+  },
 	-- which-key
 	{
 		"folke/which-key.nvim",

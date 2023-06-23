@@ -42,6 +42,7 @@ return {
 		},
 		--}}}
 	},
+
 	{
 		"jackMort/ChatGPT.nvim",
 		cond = false,
@@ -57,14 +58,17 @@ return {
 		},
 		--}}}
 	},
+
 	{
 		"nvim-neorg/neorg",
+    cmd = {"Neorg"},
+    ft = {"norg"},
 		dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-neorg/neorg-telescope" },
     },
 		--{{{
-		event = "BufEnter",
+		-- event = "BufEnter",
 		build = ":Neorg sync-parsers",
 		opts = {
 			load = {
@@ -93,4 +97,14 @@ return {
     end,
 		--}}}
 	},
+
+  {
+    'https://gitlab.com/itaranto/plantuml.nvim',
+    version = '*',
+    cmd = {"PlantUML"},
+    ft = {"plantuml"},
+    config = function()
+      require('plantuml').setup()
+    end,
+  },
 }

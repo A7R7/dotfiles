@@ -24,7 +24,7 @@ return {
 
   {
     "zbirenbaum/copilot.lua",
-    cond = false;
+    cond = false,
     --{{{
     cmd = "Copilot",
     build = ":Copilot auth",

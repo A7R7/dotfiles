@@ -1,3 +1,6 @@
 [submodule "nvim/.config/nvim"]
-	path = nvim/.config/nvim
+	path = apps/.config/nvim
 	url = https://github.com/A7R7/NVBound.git
+[submodule "apps/.config/emacs"]
+	path = apps/.config/emacs
+	url = git@github.com:A7R7/EmaxBound.git

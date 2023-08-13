@@ -61,6 +61,28 @@ fi
   alias trash="gio trash"
   alias info="info --vi-keys"
   function bak { mv "${1}" "${1}.bak" }
+  function unbak {
+    if [[ -z "$1" ]]; then
+        echo "Error: Please provide a file name."
+        return 1
+    fi
+
+    local file="$1"
+    local new_file="${file%.bak}"
+
+    if [[ "$file" == "$new_file" ]]; then
+        echo "The file does not end with '.bak' postfix. No changes needed."
+        return 0
+    fi
+
+    if [[ -e "$new_file" ]]; then
+        echo "Error: File '$new_file' already exists. Rename aborted."
+        return 1
+    fi
+
+    mv "$file" "$new_file"
+    echo "File '$file' has been renamed to '$new_file'."
+  }
 
 function ranger {
     local IFS=$'\t\n'
@@ -98,7 +120,7 @@ function ranger {
 # other programs
   alias jos="joshuto"
   alias proxyman='~/.local/bin/proxyman'
-  alias neovide='~/.cargo/bin/neovide'
+#  alias neovide='~/.cargo/bin/neovide'
   alias rwaybar='killall -SIGUSR2 waybar'
 
 # vim key binds for zsh

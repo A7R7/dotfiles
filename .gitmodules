@@ -4,3 +4,6 @@
 [submodule "apps/.config/emacs"]
 	path = apps/.config/emacs
 	url = git@github.com:A7R7/EmaxBound.git
+[submodule "hyprland/.config"]
+	path = hyprland/.config
+	url = git@github.com:A7R7/hypr-config.git

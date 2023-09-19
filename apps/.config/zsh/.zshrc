@@ -83,7 +83,9 @@ fi
     mv "$file" "$new_file"
     echo "File '$file' has been renamed to '$new_file'."
   }
-
+function shadow {
+  convert "$1" \( +clone -background black -shadow 57x15+0+13 \) +swap -background transparent -layers merge +repage "$1"
+}
 function ranger {
     local IFS=$'\t\n'
     local tempfile="$(mktemp -t tmp.XXXXXX)"
